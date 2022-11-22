@@ -1,0 +1,30 @@
+<persistence version="2.0"
+             xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+        http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+<persistence-unit name="by.it" transaction-type="RESOURCE_LOCAL">
+
+    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+    <class>by.it_academy.jd2.Mk_JD2_92_22.main.Person</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+
+    <properties>
+        <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+        <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/primer"/>
+        <property name="javax.persistence.jdbc.user" value="postgres"/>
+        <property name="javax.persistence.jdbc.password" value="postgres"/>
+        <property name="hibernate.hbm2ddl.auto" value = "create"/>
+        <property name="hibernate.hbm2ddl.auto" value="update"/>
+        <property name="hibernate.use_sql_comments" value="true"/>
+        <property name="hibernate.show_sql" value = "true"/>
+        <property name="hibernate.connection.pool_size" value="10"/>
+        <property name="hibernate.default_schema" value="app"/>
+    </properties>
+
+</persistence-unit>
+</persistence>
+
+
+
+
