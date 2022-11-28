@@ -65,8 +65,6 @@ public class MenuFullService implements IMenuFullService {
             );
             menuOut = menuDao.create(menu);
 
-//            menuDto = this.menuMapper.mapperDto(menu);
-
         } catch (IllegalStateException | IllegalArgumentException e) {
             throw new ValidateException(e.getMessage(), e);
         } catch (DaoException e) {

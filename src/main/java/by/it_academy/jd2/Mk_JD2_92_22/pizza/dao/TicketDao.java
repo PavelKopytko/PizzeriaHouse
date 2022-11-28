@@ -146,18 +146,8 @@ public class TicketDao implements ITicketDao {
 
 
             int countUpdatedRows = stm.executeUpdate();
-//
-//            try(ResultSet rs = stm.getGeneratedKeys()){
-//                while (rs.next()){
-//                    stmOrder.setLong(1, rs.getLong(ID));
 
             stmOrder.executeUpdate();
-//                }
-//            }
-
-//            stmOrder.setLong(1, rs.getLong(ID));
-//
-//            stmOrder.executeUpdate();
 
             if (countUpdatedRows != 1) {
                 if (countUpdatedRows == 0) {

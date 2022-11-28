@@ -20,4 +20,6 @@ public interface IOrder {
     LocalDateTime getDtCreate();
 
     LocalDateTime getDtUpdate();
+
+    void setSelected(List<ISelectedItem> selected);
 }

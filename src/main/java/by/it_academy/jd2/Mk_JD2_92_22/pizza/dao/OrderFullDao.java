@@ -66,7 +66,7 @@ public class OrderFullDao implements IOrderFullDao {
 
     private static final String DELETE_ROWS_SQL = "DELETE FROM structure.menu_row WHERE menu = ?;";
 
-    private final static String DELETE_SQL = "DELETE FROM structure.menu\n" +
+    private final static String DELETE_SQL = "DELETE FROM structure.selected_item\n" +
             "\tWHERE id = ? and dt_update = ?;";
 
     private final static String UNIQ_ERROR_CODE = "23505";
@@ -96,15 +96,16 @@ public class OrderFullDao implements IOrderFullDao {
             int updated = stm.executeUpdate();
 
             try (ResultSet rs = stm.getGeneratedKeys()) {
+
                 while (rs.next()) {
                     long orderId = rs.getLong(ID);
 
                     for (ISelectedItem selectedItem : item.getSelected()) {
-                        stmItems.setObject(1, item.getDtCreate());
-                        stmItems.setObject(2, item.getDtUpdate());
+                        stmItems.setObject(1, selectedItem.getDtCreate());
+                        stmItems.setObject(2, selectedItem.getDtUpdate());
                         stmItems.setLong(3, selectedItem.getMenuRow().getId());
                         stmItems.setLong(4, selectedItem.getCount());
-                        stmItems.setLong(5, selectedItem.getOrder().getId());
+                        stmItems.setLong(5, orderId);
 
                         stmItems.addBatch();
                     }
@@ -177,24 +178,24 @@ public class OrderFullDao implements IOrderFullDao {
     @Override
     public void delete(long id, LocalDateTime dtUpdate) throws DaoException {
 
-//        try (Connection conn = ds.getConnection();
-//             PreparedStatement stm = conn.prepareStatement(DELETE_SQL, Statement.RETURN_GENERATED_KEYS)
-//        ) {
-//            stm.setLong(1, id);
-//            stm.setObject(2, dtUpdate);
-//
-//            int countUpdatedRows = stm.executeUpdate();
-//
-//            if (countUpdatedRows != 1) {
-//                if (countUpdatedRows == 0) {
-//                    throw new IllegalArgumentException("Не смогли удалить какую либо запись");
-//                } else {
-//                    throw new IllegalArgumentException("Удалили более одной записи");
-//                }
-//            }
-//        } catch (SQLException e) {
-//            throw new DaoException("При удалении данных произошла ошибка", e);
-//        }
+        try (Connection conn = ds.getConnection();
+             PreparedStatement stm = conn.prepareStatement(DELETE_SQL, Statement.RETURN_GENERATED_KEYS)
+        ) {
+            stm.setLong(1, id);
+            stm.setObject(2, dtUpdate);
+
+            int countUpdatedRows = stm.executeUpdate();
+
+            if (countUpdatedRows != 1) {
+                if (countUpdatedRows == 0) {
+                    throw new IllegalArgumentException("Не смогли удалить какую либо запись");
+                } else {
+                    throw new IllegalArgumentException("Удалили более одной записи");
+                }
+            }
+        } catch (SQLException e) {
+            throw new DaoException("При удалении данных произошла ошибка", e);
+        }
     }
 
 

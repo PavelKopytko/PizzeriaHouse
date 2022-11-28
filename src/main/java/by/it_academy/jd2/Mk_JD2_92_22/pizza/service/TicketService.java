@@ -33,7 +33,7 @@ public class TicketService implements ITicketService {
         ITicket ticket;
 
         try {
-            IOrder order = orderService.create(item.getOrder());
+            IOrder order = orderService.read(item.getOrder().getId());
             ticket = ticketDao.create(
                     new Ticket(
                             LocalDateTime.now(),
@@ -43,7 +43,7 @@ public class TicketService implements ITicketService {
                     )
             );
 
-        } catch (IllegalStateException | IllegalArgumentException e) {
+        } catch (IllegalStateException | IDServiceException | IllegalArgumentException e) {
             throw new ValidateException(e.getMessage(), e);
         } catch (DaoException e) {
             throw new ServiceException(e.getMessage(), e);
